@@ -1,4 +1,5 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { createExcel } from "../functions/create_excel/resource";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -15,10 +16,24 @@ const schema = a.schema({
   
   Item: a
     .model({
-      id: a.integer(),
+      id: a.id(),
       name: a.string(),
   })
-  .authorization((allow) => [allow.publicApiKey()])
+  .authorization((allow) => [allow.publicApiKey()]),
+
+  CreateExcelResult: a.customType({
+    success: a.boolean(),
+    content: a.string(),
+  }),
+
+  invokeCreateExcel: a
+    .query()
+    .arguments({
+      payload: a.string()
+    })
+    .returns(a.ref('CreateExcelResult'))
+    .authorization((allow) => [allow.publicApiKey()])
+    .handler(a.handler.function(createExcel)),
 });
 
 export type Schema = ClientSchema<typeof schema>;

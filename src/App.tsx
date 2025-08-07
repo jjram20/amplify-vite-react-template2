@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
+import { createExcel } from "./helpers/createExcel";
 
 const client = generateClient<Schema>();
 
@@ -15,6 +16,23 @@ function App() {
 
   function createTodo() {
     client.models.Todo.create({ content: window.prompt("Todo content") });
+  }
+
+  const clickCreateExcel = async () => {
+    console.log("Click create excel");
+    try {
+      const result = await createExcel();
+      console.log(result);
+      if (result.success) {
+        console.log("Success create excel");
+      } else {
+        console.error("Error create excel")
+      }
+    } catch (e) {
+      console.log("Error", e);
+    } finally {
+      console.log("End click create excel");
+    }
   }
 
   return (
@@ -32,6 +50,8 @@ function App() {
         <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
           Review next step of this tutorial.
         </a>
+        <br />
+        <button onClick={clickCreateExcel}>Generate Excel</button>
       </div>
     </main>
   );
