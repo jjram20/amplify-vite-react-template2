@@ -14,6 +14,18 @@ const schema = a.schema({
     })
     .authorization((allow) => [allow.publicApiKey()]),
   
+  /* createManyTodos: a.mutation()
+    .arguments({
+      todos: a.array(
+        a.input({
+          content: a.string(),
+        })
+      ),
+    })
+    .returns(a.array(Todo))
+    .resolver('createManyTodosResolver'),
+    */
+  
   Item: a
     .model({
       id: a.id(),

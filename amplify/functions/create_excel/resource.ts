@@ -4,6 +4,9 @@ import { storageBucket } from "../../storage/resource";
 export const createExcel = defineFunction({
     name: "createExcelFn",
     entry: "./handler.ts",
+    environment: {
+        TABLITA: "nombre_tablita"
+    }
     /*environment: {
         BUCKET_NAME: storageBucket.resources.s3Bucket.bucketName // 👈 esto pasa el nombre real como env var
     },
